@@ -1,6 +1,7 @@
 package basetest;
 
 import com.microsoft.playwright.*;
+import common.report.ReportUtils;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
@@ -13,6 +14,7 @@ public class BaseTest {
 
     private BrowserType.LaunchOptions options;
     private Playwright wright;
+    private Page page;
 
     @BeforeMethod(alwaysRun = true)
     public void initBrowser(){
@@ -20,7 +22,7 @@ public class BaseTest {
     }
 
     private void launchBrowser(){
-        options = new BrowserType.LaunchOptions().setHeadless(false);
+        options = new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(2000);
 
         wright = Playwright.create();
         browser = wright.chromium().launch(options);
@@ -28,15 +30,16 @@ public class BaseTest {
 
     protected Page navigateToURL(String url){
         Browser.NewContextOptions options = new Browser.NewContextOptions()
-                .setRecordVideoDir(Path.of("C:\\Users\\cobyg\\Desktop\\path"));
+                .setRecordVideoDir(Path.of(ReportUtils.sourcePath));
         BrowserContext context = browser.newContext(options);
-        Page page = context.newPage();
+        page = context.newPage();
         page.navigate(url);
         return page;
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(){
+        ReportUtils.videoPath = ReportUtils.videoPath.concat(page.video().path().getFileName().toString());
         browser.close();
         wright.close();
     }

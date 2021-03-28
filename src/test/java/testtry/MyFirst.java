@@ -2,6 +2,7 @@ package testtry;
 
 import basetest.BaseTest;
 import com.microsoft.playwright.*;
+import org.junit.rules.TestName;
 import org.testng.Reporter;
 import org.testng.annotations.Test;
 import pageobject.BaiduSearchPage;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class MyFirst extends BaseTest {
 
-    @Test
+    @Test(testName = "openBaiduAndSearch")
     public void openBaiduAndSearch() {
 
         String baiduURL = "http://www.baidu.com";
