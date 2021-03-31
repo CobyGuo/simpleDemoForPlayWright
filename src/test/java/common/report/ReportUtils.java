@@ -6,8 +6,6 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
 
 public class ReportUtils {
     private static ReportUtils instance;
@@ -41,7 +39,7 @@ public class ReportUtils {
     }
 
     public void initReports(){
-        File reportDir = new File(logPath);
+        File reportDir = new File(OUTPUT_FOLDER);
 
         if (!reportDir.exists() && !reportDir.isDirectory()){
             reportDir.mkdir();
@@ -49,6 +47,7 @@ public class ReportUtils {
 
         extent = new ExtentReports();
         ExtentSparkReporter spark = new ExtentSparkReporter(logPath);
+        spark.config().enableOfflineMode(true);
         extent.attachReporter(spark);
     }
 

@@ -6,6 +6,7 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import common.report.ReportUtils;
+import common.utils.ReportDescription;
 import common.utils.SoftAssert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -36,6 +37,11 @@ public class BaseTest {
     public void initBrowser(Method m){
         launchBrowser();
         report.startCase(m.getName());
+
+        ReportDescription.put("This test is to open the baidu page and do some search");
+        ReportDescription.put("Package", m.getDeclaringClass().getName());
+        ReportDescription.put("Test Case", m.getName());
+        ReportDescription.build();
     }
 
     private void launchBrowser(){
